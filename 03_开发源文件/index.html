@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="WaterPulse 首页交互设计：了解采购来源的水风险、查看分析流程与模拟示例。">
+  <title>WaterPulse · 首页交互原型</title>
+  <link rel="stylesheet" href="waterpulse-home.css">
+  <script src="waterpulse-home.js" defer></script>
+</head>
+<body style="margin:0">
+<div id="wp-home">
+  <a class="wp-skip" href="#wp-question">跳至分析输入</a>
+  <header class="wp-header">
+    <a href="#" class="wp-brand" aria-label="WaterPulse 首页">
+      <span class="wp-logo" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M16 3C13 8 6 14 6 20a10 10 0 0 0 20 0C26 14 19 8 16 3Z" fill="currentColor"/><path d="M10 21c4 3 8 3 12-1" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span><strong>WaterPulse</strong><small>上游供应链水风险助手</small></span>
+    </a>
+    <nav aria-label="主导航"><a href="#wp-how">如何分析</a><a href="#wp-deliver">能得到什么</a><button class="wp-btn wp-btn-quiet" data-action="demo">体验示例 <span aria-hidden="true">↗</span></button></nav>
+  </header>
+  <main>
+    <section class="wp-hero" aria-labelledby="wp-title">
+      <div class="wp-intro">
+        <p class="wp-eyebrow"><span></span> 面向农食企业的采购与风险管理</p>
+        <h1 id="wp-title">看清采购风险，<br><em>找准重点产地。</em></h1>
+        <p class="wp-lead">将产地水风险、原材料敏感性与采购占比联系起来，帮助你识别重点节点、比较压力情景，并查看结论依据。</p>
+        <form class="wp-composer" id="wp-form">
+          <label for="wp-question">分析我的采购水风险</label>
+          <textarea id="wp-question" name="question" rows="3" maxlength="5000" placeholder="请输入原材料、供应地区、采购占比和分析时期。我会帮你识别需要优先关注的供应节点，并说明风险来源与数据缺口。" aria-describedby="wp-input-help"></textarea>
+          <div class="wp-compose-actions"><button type="button" class="wp-tool" data-action="upload"><span aria-hidden="true">＋</span> 上传 Excel / CSV</button><button type="button" class="wp-tool" data-action="template">下载模板</button><button type="submit" class="wp-btn wp-btn-primary">开始分析 <span aria-hidden="true">↗</span></button></div>
+          <p id="wp-form-error" class="wp-form-error" role="alert" hidden></p>
+        </form>
+        <p class="wp-help" id="wp-input-help">资料不完整也可以开始，助手会先整理信息并提示数据缺口。</p>
+        <div class="wp-prompts" aria-label="常见任务"><button data-prompt="请帮我检查采购资料里还缺哪些水风险分析所需的信息。">检查资料缺口</button><button data-prompt="我想比较一个供应节点受到冲击后的变化，请先告诉我需要哪些数据。">比较冲击情景</button></div>
+        <div class="wp-demo-entry"><button data-action="demo"><span class="wp-play" aria-hidden="true">▶</span> 先走一遍甘蔗采购示例</button><span>无需上传资料</span></div>
+      </div>
+      <aside class="wp-preview" aria-labelledby="wp-preview-title">
+        <div class="wp-preview-head"><span class="wp-overline">分析成果预览</span><span class="wp-badge">模拟采购情景</span></div>
+        <h2 id="wp-preview-title">同一份采购，<br>看见每个产地的重要性。</h2>
+        <div class="wp-network" aria-label="甘蔗的两个模拟采购来源：巴西60%，广西40%，共同组成采购组合。">
+          <svg class="wp-lines" viewBox="0 0 440 175" preserveAspectRatio="none" aria-hidden="true"><path d="M114 44C215 44 240 86 385 86M114 130C215 130 240 86 385 86"/><circle cx="207" cy="66" r="4"/><circle cx="229" cy="107" r="4"/></svg>
+          <div class="wp-node wp-node-one"><span class="wp-node-dot"></span><div><strong>巴西示例节点</strong><small>采购占比 <b>60%</b></small></div></div>
+          <div class="wp-node wp-node-two"><span class="wp-node-dot wp-node-dot-blue"></span><div><strong>广西示例节点</strong><small>采购占比 <b>40%</b></small></div></div>
+          <div class="wp-destination"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 27V13l9 5v-7l9 5V5h4v22ZM5 27h22M10 22h2m6 0h2"/></svg><strong>甘蔗采购组合</strong><small>看整体，也看来源</small></div>
+        </div>
+        <div class="wp-rank"><div class="wp-rank-heading"><h3>对组合风险的贡献</h3><span>示意排序</span></div><div class="wp-bar-row"><span>巴西示例节点</span><div class="wp-track"><i style="width:54.5%"></i></div><strong>54.5%</strong></div><div class="wp-bar-row"><span>广西示例节点</span><div class="wp-track"><i class="wp-bar-blue" style="width:45.5%"></i></div><strong>45.5%</strong></div></div>
+        <div class="wp-insight"><span aria-hidden="true">↗</span><p><strong>先关注巴西示例节点</strong><br>本例中，它的节点风险强度较低，但采购占比更大，因此对组合风险的贡献更高。</p></div>
+        <div class="wp-preview-foot"><small>比例和强度均为教学设定，不代表真实企业或地区风险。</small><button data-action="evidence">查看示例依据 <span aria-hidden="true">↗</span></button></div>
+      </aside>
+    </section>
+    <section class="wp-method" id="wp-how" aria-labelledby="wp-how-title">
+      <div class="wp-section-heading"><div><p class="wp-overline">从问题到判断</p><h2 id="wp-how-title">每一步，都知道下一步。</h2></div><p>你提供业务信息，助手组织分析。<br>需要补充或确认的地方，会清楚提示。</p></div>
+      <ol class="wp-steps"><li><span>01</span><h3>说清采购情况</h3><p>输入原材料、供应地区与采购占比，或上传已有表格。</p></li><li><span>02</span><h3>核对信息与缺口</h3><p>查看整理后的信息、数据来源，以及需要补充的内容。</p></li><li><span>03</span><h3>识别重点与变化</h3><p>查看风险贡献；满足数据条件后，比较不同压力情景。</p></li><li><span>04</span><h3>带走有依据的建议</h3><p>将结果、来源、假设与待核验事项整理成管理简报。</p></li></ol>
+    </section>
+    <section class="wp-deliver" id="wp-deliver" aria-labelledby="wp-deliver-title">
+      <div><p class="wp-overline">分析之后</p><h2 id="wp-deliver-title">得到能继续讨论的结果。</h2><p>从节点排序到情景比较，<br>为采购核验与风险沟通提供依据。</p><button class="wp-link-button" data-action="demo">体验一次完整分析 <span aria-hidden="true">↗</span></button></div>
+      <div class="wp-outcomes"><article><span>01 / 重点在哪里</span><h3>节点排序与风险贡献</h3><p>区分节点自身的风险强度，以及它对你的采购组合有多重要。</p></article><article><span>02 / 冲击会怎样</span><h3>基准与情景对照</h3><p>分清风险指标变化与供应缺口；展示每项情景采用的假设。</p></article><article><span>03 / 下一步做什么</span><h3>建议与核验清单</h3><p>查看优先关注事项、所依赖的来源，以及尚未解决的数据缺口。</p></article></div>
+    </section>
+    <section class="wp-trust" aria-label="分析原则"><div><span aria-hidden="true">⌁</span><strong>数字有依据</strong><p>风险数值来自计算工具，结果附带来源与假设。</p></div><div><span aria-hidden="true">◎</span><strong>缺口看得见</strong><p>缺失数据单独提示，数据不足时不生成正式评分。</p></div><div><span aria-hidden="true">↗</span><strong>决策由你把关</strong><p>提供筛查与讨论依据，实际采购调整由企业确认。</p></div></section>
+  </main>
+  <footer class="wp-footer"><span>WaterPulse <b>·</b> 上游供应链水风险助手</span><span class="wp-prototype-label">首页交互原型 · 示例数据仅在本地演示</span></footer>
+  <dialog class="wp-dialog" id="wp-dialog" aria-labelledby="wp-dialog-title"><div class="wp-dialog-top"><div><span class="wp-badge" id="wp-dialog-badge">模拟采购情景</span><h2 id="wp-dialog-title">跟随一份甘蔗采购，走完分析过程。</h2></div><button class="wp-close" id="wp-close" aria-label="关闭">×</button></div><div id="wp-dialog-content"></div></dialog>
+  <div class="wp-toast" id="wp-toast" role="status" aria-live="polite" hidden></div>
+</div>
+</body>
+</html>

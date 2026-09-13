@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="WaterPulse 首页交互设计：了解采购来源的水风险、查看分析流程与模拟示例。">
+  <title>WaterPulse · 首页交互原型</title>
+  <style>
+/* All selectors are scoped to #wp-home. No global body/reset selectors. */
+#wp-home{--wp-ink:#172f3a;--wp-muted:#536c75;--wp-green:#137566;--wp-blue:#3974ab;--wp-line:#d7e4e3;--wp-bg:#f7faf9;--wp-surface:#fff;box-sizing:border-box;font-family:Inter,-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;color:var(--wp-ink);background:var(--wp-bg);font-size:15px;line-height:1.65;min-height:100vh;isolation:isolate;text-align:left}
+#wp-home *,#wp-home *::before,#wp-home *::after{box-sizing:border-box}
+#wp-home button,#wp-home textarea,#wp-home input{font:inherit}
+#wp-home button,#wp-home a,#wp-home input{touch-action:manipulation}
+#wp-home button{cursor:pointer;color:inherit}
+#wp-home button:disabled{cursor:default;opacity:.5}
+#wp-home a{color:inherit;text-decoration:none}
+#wp-home h1,#wp-home h2,#wp-home h3,#wp-home p{margin:0}
+#wp-home button:focus-visible,#wp-home a:focus-visible,#wp-home textarea:focus-visible,#wp-home input:focus-visible{outline:3px solid #65a6db;outline-offset:4px}
+#wp-home [hidden]{display:none!important}
+#wp-home .wp-header{max-width:1280px;margin:auto;height:92px;padding:0 40px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--wp-line)}
+#wp-home .wp-brand{display:flex;gap:11px;align-items:center;line-height:1.25}
+#wp-home .wp-brand strong{font-size:23px;letter-spacing:-.7px}
+#wp-home .wp-brand small{display:block;color:var(--wp-muted);font-size:11px;letter-spacing:1px;margin-top:5px}
+#wp-home .wp-logo{width:40px;height:45px;color:var(--wp-green)}
+#wp-home .wp-logo svg{width:100%;height:100%}
+#wp-home .wp-header nav{display:flex;gap:28px;align-items:center;font-size:13px}
+#wp-home .wp-header nav>a:hover{color:var(--wp-green)}
+#wp-home .wp-btn{display:inline-flex;gap:14px;align-items:center;justify-content:center;padding:11px 18px;border-radius:8px;font-size:13px;font-weight:650;border:1px solid transparent;min-height:44px;white-space:nowrap}
+#wp-home .wp-btn-primary{background:var(--wp-green);color:#fff}
+#wp-home .wp-btn-primary:hover{background:#0b5e51}
+#wp-home .wp-btn-quiet{border-color:var(--wp-line);background:#fff}
+#wp-home .wp-btn-quiet:hover{background:#ecf4f1}
+#wp-home .wp-hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:56px;max-width:1280px;margin:auto;padding:56px 40px 64px;align-items:start}
+#wp-home .wp-eyebrow{display:flex;align-items:center;gap:8px;font-size:12px;letter-spacing:1px;color:var(--wp-green);margin-bottom:17px}
+#wp-home .wp-eyebrow>span{width:6px;height:6px;background:var(--wp-green);border-radius:50%}
+#wp-home h1{font-size:clamp(32px,3.7vw,48px);line-height:1.28;letter-spacing:-1.8px;font-weight:680}
+#wp-home h1 em{font-style:normal;color:var(--wp-green)}
+#wp-home .wp-lead{font-size:15px;color:var(--wp-muted);max-width:510px;line-height:1.9;margin:20px 0 24px}
+#wp-home .wp-composer{background:#fff;border:1px solid #b9cfcc;border-radius:14px;padding:17px 18px 14px;box-shadow:0 8px 28px #123d3910}
+#wp-home .wp-composer label{font-size:13px;font-weight:650;display:block;margin-bottom:8px}
+#wp-home textarea{background:transparent;display:block;width:100%;resize:vertical;min-height:85px;border:0;padding:0;color:var(--wp-ink);font-size:13px;line-height:1.9;border-radius:2px}
+#wp-home textarea::placeholder{color:#6f828a}
+#wp-home textarea:focus-visible{outline-offset:1px}
+#wp-home .wp-compose-actions{display:flex;gap:10px;align-items:center;margin-top:8px;flex-wrap:wrap}
+#wp-home .wp-compose-actions .wp-btn{margin-left:auto}
+#wp-home .wp-tool{background:transparent;border:0;padding:7px 0;font-size:11px;color:var(--wp-muted);min-height:40px}
+#wp-home .wp-tool:hover{color:var(--wp-green)}
+#wp-home .wp-tool span{font-size:19px;vertical-align:-1px}
+#wp-home .wp-help{font-size:11px;color:var(--wp-muted);margin:12px 0 14px;line-height:1.8}
+#wp-home .wp-form-error{font-size:12px;color:#9d352a;margin-top:8px}
+#wp-home .wp-prompts{display:flex;gap:9px;flex-wrap:wrap}
+#wp-home .wp-prompts button{background:transparent;border:1px solid var(--wp-line);border-radius:99px;padding:7px 13px;font-size:12px;min-height:36px}
+#wp-home .wp-prompts button:hover{border-color:var(--wp-green);background:#edf5f2}
+#wp-home .wp-demo-entry{display:flex;align-items:center;gap:13px;margin-top:21px}
+#wp-home .wp-demo-entry button{display:flex;gap:10px;align-items:center;background:none;border:0;color:var(--wp-green);padding:0;font-weight:650;font-size:13px;min-height:40px}
+#wp-home .wp-demo-entry>span{font-size:11px;color:var(--wp-muted)}
+#wp-home .wp-play{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;border:1px solid #a6c8bc;font-size:9px}
+#wp-home .wp-preview{background:#eaf3f0;border:1px solid #d4e5df;border-radius:20px;padding:25px 27px 20px;position:relative;overflow:hidden;box-shadow:0 16px 50px #16463807}
+#wp-home .wp-preview-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+#wp-home .wp-overline{font-size:11px;letter-spacing:1.6px;font-weight:650;color:var(--wp-green)}
+#wp-home .wp-badge{display:inline-flex;border:1px solid #c8dcd3;border-radius:5px;background:#f7fbf8;padding:3px 7px;color:#42675b;font-size:10px;line-height:1.5;white-space:nowrap}
+#wp-home .wp-preview h2{font-size:25px;line-height:1.5;letter-spacing:-.8px;margin-top:17px;font-weight:650}
+#wp-home .wp-network{position:relative;height:171px;margin:13px 0 15px;background-image:radial-gradient(#a5c8b95e 1px,transparent 1px);background-size:13px 13px}
+#wp-home .wp-lines{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+#wp-home .wp-lines path{fill:none;stroke:#88b8aa;stroke-width:1.6}
+#wp-home .wp-lines circle{fill:var(--wp-green)}
+#wp-home .wp-node{position:absolute;left:0;display:flex;align-items:center;gap:9px;background:#f6faf8;border:1px solid #cadfd6;border-radius:8px;padding:9px 11px;min-width:149px;line-height:1.5}
+#wp-home .wp-node-one{top:11px}
+#wp-home .wp-node-two{bottom:10px}
+#wp-home .wp-node-dot{width:7px;height:7px;background:var(--wp-green);border-radius:50%;flex-shrink:0}
+#wp-home .wp-node-dot-blue{background:var(--wp-blue)}
+#wp-home .wp-node strong{font-size:12px;font-weight:650}
+#wp-home .wp-node small{display:block;font-size:10px;color:var(--wp-muted)}
+#wp-home .wp-node b{font-weight:650;font-size:12px;color:var(--wp-ink);margin-left:7px}
+#wp-home .wp-destination{position:absolute;right:3%;top:42px;text-align:center;display:flex;flex-direction:column;align-items:center;background:#eaf3f0;padding:0 6px}
+#wp-home .wp-destination svg{width:41px;height:41px;stroke:var(--wp-green);stroke-width:1.4;fill:none;background:#d9eae2;padding:6px;border-radius:9px;margin-bottom:6px}
+#wp-home .wp-destination strong{font-size:12px}
+#wp-home .wp-destination small{font-size:9px;color:var(--wp-muted)}
+#wp-home .wp-rank{border-top:1px solid #cdDFd6;padding-top:16px}
+#wp-home .wp-rank-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+#wp-home .wp-rank h3{font-size:12px;font-weight:650}
+#wp-home .wp-rank-heading>span{font-size:10px;color:var(--wp-muted)}
+#wp-home .wp-bar-row{display:grid;grid-template-columns:100px 1fr 42px;align-items:center;gap:9px;font-size:11px;margin:11px 0}
+#wp-home .wp-bar-row>strong{text-align:right;font-size:12px;font-variant-numeric:tabular-nums}
+#wp-home .wp-track{background:#d9e7e2;height:8px;border-radius:3px;overflow:hidden}
+#wp-home .wp-track i{display:block;height:100%;background:var(--wp-green);border-radius:3px;transition:width .25s ease}
+#wp-home .wp-track i.wp-bar-blue{background:var(--wp-blue)}
+#wp-home .wp-insight{display:flex;gap:10px;background:#fff9;border:1px solid #d6e4de;border-radius:8px;padding:13px 12px;margin-top:19px}
+#wp-home .wp-insight>span{color:var(--wp-green);font-size:20px;line-height:1.3}
+#wp-home .wp-insight p{font-size:11px;line-height:1.85;color:var(--wp-muted)}
+#wp-home .wp-insight strong{font-size:12px;color:var(--wp-ink)}
+#wp-home .wp-preview-foot{margin-top:13px;display:flex;align-items:flex-start;gap:12px;justify-content:space-between}
+#wp-home .wp-preview-foot small{font-size:9px;line-height:1.8;max-width:240px;color:var(--wp-muted)}
+#wp-home .wp-preview-foot button{border:0;background:none;color:var(--wp-green);font-size:10px;padding:0;white-space:nowrap;min-height:28px}
+#wp-home .wp-method,#wp-home .wp-deliver,#wp-home .wp-trust{max-width:1200px;margin:auto;border-top:1px solid var(--wp-line);padding:40px 0 42px}
+#wp-home .wp-section-heading{display:flex;justify-content:space-between;gap:25px;align-items:flex-end}
+#wp-home .wp-section-heading h2,#wp-home .wp-deliver h2{font-size:27px;letter-spacing:-.7px;line-height:1.4;margin-top:9px;font-weight:650}
+#wp-home .wp-section-heading>p,#wp-home .wp-deliver>div>p:not(.wp-overline){font-size:12px;color:var(--wp-muted);line-height:1.9}
+#wp-home .wp-steps{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);padding:0;margin:30px 0 0}
+#wp-home .wp-steps li{padding:0 26px;border-left:1px solid var(--wp-line)}
+#wp-home .wp-steps li:first-child{padding-left:0;border:0}
+#wp-home .wp-steps li:last-child{padding-right:0}
+#wp-home .wp-steps li>span{font-size:12px;color:var(--wp-green);font-variant-numeric:tabular-nums}
+#wp-home .wp-steps h3{font-size:15px;margin:10px 0 8px;font-weight:650}
+#wp-home .wp-steps p{font-size:12px;color:var(--wp-muted);line-height:1.8}
+#wp-home .wp-deliver{display:grid;grid-template-columns:1fr 1.9fr;gap:60px;padding-top:46px;padding-bottom:46px}
+#wp-home .wp-deliver>div>p:not(.wp-overline){margin-top:17px}
+#wp-home .wp-link-button{border:0;background:none;color:var(--wp-green);padding:0;font-size:13px;font-weight:650;margin-top:20px;min-height:40px}
+#wp-home .wp-outcomes{display:grid;grid-template-columns:repeat(3,1fr);gap:27px}
+#wp-home .wp-outcomes article{border-top:2px solid #9fc2b5;padding-top:17px}
+#wp-home .wp-outcomes article>span{font-size:10px;letter-spacing:.5px;color:var(--wp-muted)}
+#wp-home .wp-outcomes h3{font-size:15px;margin:13px 0 10px}
+#wp-home .wp-outcomes p{font-size:12px;line-height:1.9;color:var(--wp-muted)}
+#wp-home .wp-trust{display:grid;grid-template-columns:repeat(3,1fr);gap:35px;padding:28px 0}
+#wp-home .wp-trust>div{display:grid;grid-template-columns:22px 1fr;gap:1px 10px;align-items:center}
+#wp-home .wp-trust span{color:var(--wp-green);font-size:23px;grid-row:1/3}
+#wp-home .wp-trust strong{font-size:12px}
+#wp-home .wp-trust p{font-size:10px;color:var(--wp-muted)}
+#wp-home .wp-footer{max-width:1200px;margin:auto;padding:22px 0 28px;display:flex;justify-content:space-between;border-top:1px solid var(--wp-line);font-size:10px;color:var(--wp-muted);gap:15px}
+#wp-home .wp-footer b{padding:0 5px;font-weight:400}
+#wp-home .wp-skip{position:absolute;left:10px;top:-100px;z-index:10;background:white;padding:10px;border:2px solid var(--wp-green)}
+#wp-home .wp-skip:focus{top:10px}
+#wp-home .wp-dialog{width:min(860px,calc(100% - 32px));max-height:calc(100dvh - 48px);overflow:auto;border:1px solid var(--wp-line);border-radius:17px;padding:0;color:var(--wp-ink);background:#fbfdfc;box-shadow:0 24px 120px #112e3955}
+#wp-home .wp-dialog::backdrop{background:#12323a75;backdrop-filter:blur(5px)}
+#wp-home .wp-dialog-top{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding:27px 30px 22px;border-bottom:1px solid var(--wp-line)}
+#wp-home .wp-dialog-top h2{font-size:22px;line-height:1.5;margin-top:10px}
+#wp-home .wp-close{flex-shrink:0;display:grid;place-items:center;background:#eef3f1;border:1px solid var(--wp-line);width:36px;height:36px;border-radius:50%;font-size:24px;line-height:1}
+#wp-home .wp-dialog-body{padding:24px 30px 28px}
+#wp-home .wp-wizard-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;list-style:none;padding:20px 30px 0;margin:0}
+#wp-home .wp-wizard-tabs li{padding:8px 0 11px;font-size:12px;color:var(--wp-muted);border-bottom:2px solid #dce6e2}
+#wp-home .wp-wizard-tabs li[aria-current="step"]{color:var(--wp-green);font-weight:650;border-color:var(--wp-green)}
+#wp-home .wp-wizard-tabs span{margin-right:6px}
+#wp-home .wp-dialog-body h3{font-size:21px;margin-bottom:10px}
+#wp-home .wp-dialog-body p{color:var(--wp-muted);font-size:13px;line-height:1.9}
+#wp-home .wp-quote{background:#edf5f1;padding:18px 21px;margin:18px 0;border-left:3px solid #5c9f89;font-size:15px;line-height:1.9}
+#wp-home .wp-data-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin:20px 0}
+#wp-home .wp-data-grid>div{border:1px solid var(--wp-line);background:white;padding:14px;border-radius:8px}
+#wp-home .wp-data-grid small{display:block;color:var(--wp-muted);font-size:11px}
+#wp-home .wp-data-grid strong{font-size:21px;display:block;margin-top:5px}
+#wp-home .wp-note{background:#f7f1e5;border:1px solid #e4d8bb;padding:13px 15px;border-radius:7px;color:#78613c!important;font-size:12px!important;margin-top:17px!important}
+#wp-home .wp-dialog-actions{display:flex;align-items:center;justify-content:space-between;gap:15px;border-top:1px solid var(--wp-line);padding-top:21px;margin-top:24px}
+#wp-home .wp-dialog-actions small{font-size:11px;color:var(--wp-muted)}
+#wp-home .wp-table-wrap{overflow:auto;margin:20px 0}
+#wp-home table{width:100%;border-collapse:collapse;font-size:12px}
+#wp-home th{font-weight:600;text-align:left;background:#edf4f0}
+#wp-home td,#wp-home th{border-bottom:1px solid var(--wp-line);padding:12px 10px;vertical-align:top}
+#wp-home .wp-tag{font-size:10px;background:#eaf2ee;color:#42685a;padding:3px 6px;border-radius:4px;white-space:nowrap}
+#wp-home .wp-result-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:25px;margin-top:20px}
+#wp-home .wp-result-panel{background:white;border:1px solid var(--wp-line);border-radius:9px;padding:19px}
+#wp-home .wp-result-panel h4{font-size:13px;margin:0 0 17px}
+#wp-home .wp-result-panel .wp-bar-row{grid-template-columns:85px 1fr 43px}
+#wp-home .wp-slider-label{display:flex;justify-content:space-between;font-size:12px;margin:16px 0 7px}
+#wp-home input[type=range]{width:100%;accent-color:var(--wp-green);margin:0;min-height:26px}
+#wp-home .wp-reading{border-left:2px solid var(--wp-green);padding-left:17px}
+#wp-home .wp-reading strong{display:block;margin-bottom:8px;font-size:16px}
+#wp-home .wp-reading p{font-size:12px}
+#wp-home .wp-metric{font-size:42px;font-weight:650;line-height:1.2;color:var(--wp-green);font-variant-numeric:tabular-nums;margin:12px 0}
+#wp-home .wp-metric small{font-size:14px;margin-left:5px}
+#wp-home .wp-breakdown{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:22px 0}
+#wp-home .wp-breakdown>div{border-top:2px solid var(--wp-line);padding-top:10px;font-size:10px;color:var(--wp-muted)}
+#wp-home .wp-breakdown strong{display:block;font-size:20px;color:var(--wp-ink)}
+#wp-home .wp-evidence-list{margin:18px 0 0;padding-left:20px;font-size:13px;line-height:2;color:var(--wp-muted)}
+#wp-home .wp-toast{position:fixed;bottom:25px;left:50%;transform:translateX(-50%);z-index:30;background:var(--wp-ink);color:#fff;padding:12px 20px;border-radius:10px;max-width:calc(100% - 40px);font-size:12px;box-shadow:0 7px 30px #14354125}
+@media(min-width:1400px){#wp-home .wp-hero{padding-top:65px;padding-bottom:72px}}
+@media(max-width:1280px){#wp-home .wp-method,#wp-home .wp-deliver,#wp-home .wp-trust,#wp-home .wp-footer{margin-left:40px;margin-right:40px}#wp-home .wp-hero{gap:35px}}
+@media(max-width:1000px){#wp-home .wp-header{padding:0 26px;height:82px}#wp-home .wp-hero{padding:40px 26px;gap:28px;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}#wp-home h1{font-size:35px}#wp-home .wp-preview{padding:22px 20px}#wp-home .wp-preview h2{font-size:23px}#wp-home .wp-node{min-width:132px;padding:8px}#wp-home .wp-node strong{font-size:11px}#wp-home .wp-destination{right:0}#wp-home .wp-method,#wp-home .wp-deliver,#wp-home .wp-trust,#wp-home .wp-footer{margin-left:26px;margin-right:26px}#wp-home .wp-compose-actions{gap:10px}#wp-home .wp-compose-actions .wp-btn{padding:9px 12px}#wp-home .wp-deliver{gap:25px;grid-template-columns:1fr 2fr}#wp-home .wp-outcomes{gap:18px}}
+@media(max-width:800px){#wp-home .wp-hero{grid-template-columns:1fr;gap:30px;padding-top:31px}#wp-home .wp-intro{max-width:600px;margin:auto;width:100%}#wp-home .wp-preview{width:100%;max-width:600px;margin:auto}#wp-home h1{font-size:39px}#wp-home .wp-header nav{gap:16px}#wp-home .wp-header nav>a{display:none}#wp-home .wp-lead{max-width:none}#wp-home .wp-steps{grid-template-columns:1fr 1fr;gap:28px 0}#wp-home .wp-steps li:nth-child(3){border:0;padding-left:0}#wp-home .wp-steps li:nth-child(2){padding-right:0}#wp-home .wp-section-heading{display:block}#wp-home .wp-section-heading>p{margin-top:14px}#wp-home .wp-deliver{grid-template-columns:1fr;gap:23px}#wp-home .wp-deliver>div>p:not(.wp-overline) br{display:none}#wp-home .wp-trust{gap:20px}#wp-home .wp-footer{flex-wrap:wrap}#wp-home .wp-result-grid{grid-template-columns:1fr}}
+@media(max-width:480px){#wp-home .wp-header{height:78px;padding:0 20px}#wp-home .wp-brand strong{font-size:21px}#wp-home .wp-brand small{font-size:9px;letter-spacing:.3px}#wp-home .wp-logo{width:31px;height:37px}#wp-home .wp-header .wp-btn{padding:8px 10px;font-size:11px;min-height:37px;gap:7px}#wp-home .wp-hero{padding:29px 20px 37px}#wp-home h1{font-size:35px;letter-spacing:-1.2px}#wp-home .wp-eyebrow{font-size:10px;margin-bottom:12px}#wp-home .wp-lead{font-size:13px;margin:16px 0 19px}#wp-home .wp-composer{padding:14px}#wp-home textarea{min-height:95px;font-size:12px}#wp-home .wp-compose-actions{gap:10px}#wp-home .wp-compose-actions .wp-btn{width:100%;margin:0;margin-top:2px}#wp-home .wp-help{font-size:10px}#wp-home .wp-demo-entry{gap:10px}#wp-home .wp-demo-entry button{font-size:12px}#wp-home .wp-demo-entry>span{font-size:10px}#wp-home .wp-preview h2{font-size:24px}#wp-home .wp-preview{padding:20px 18px}#wp-home .wp-preview-foot{display:block}#wp-home .wp-preview-foot small{display:block;max-width:none}#wp-home .wp-preview-foot button{margin-top:7px}#wp-home .wp-method,#wp-home .wp-deliver,#wp-home .wp-trust,#wp-home .wp-footer{margin-left:20px;margin-right:20px}#wp-home .wp-section-heading h2,#wp-home .wp-deliver h2{font-size:24px}#wp-home .wp-steps li{padding:0 18px}#wp-home .wp-steps h3{font-size:14px}#wp-home .wp-steps p{font-size:11px}#wp-home .wp-outcomes{grid-template-columns:1fr;gap:20px}#wp-home .wp-outcomes article{padding-top:13px}#wp-home .wp-outcomes h3{margin:6px 0}#wp-home .wp-trust{grid-template-columns:1fr;gap:17px}#wp-home .wp-dialog{width:calc(100% - 20px);max-height:calc(100dvh - 20px)}#wp-home .wp-dialog-top{padding:20px;gap:12px}#wp-home .wp-dialog-top h2{font-size:18px}#wp-home .wp-dialog-body{padding:20px}#wp-home .wp-wizard-tabs{padding:16px 20px 0;gap:8px}#wp-home .wp-wizard-tabs li{font-size:10px}#wp-home .wp-wizard-tabs span{display:block}#wp-home .wp-data-grid{gap:8px}#wp-home .wp-data-grid>div{padding:11px 8px}#wp-home .wp-data-grid strong{font-size:18px}#wp-home .wp-data-grid small{font-size:10px}#wp-home .wp-dialog-actions{flex-wrap:wrap}#wp-home .wp-dialog-actions .wp-btn{flex:1}#wp-home .wp-breakdown{grid-template-columns:1fr 1fr}#wp-home .wp-table-wrap{margin:15px -3px}#wp-home th,#wp-home td{padding:10px 6px;font-size:11px}}
+@media(prefers-reduced-motion:reduce){#wp-home *{transition:none!important;scroll-behavior:auto!important}}
+
+</style>
+  
+</head>
+<body style="margin:0">
+<div id="wp-home">
+  <a class="wp-skip" href="#wp-question">跳至分析输入</a>
+  <header class="wp-header">
+    <a href="#" class="wp-brand" aria-label="WaterPulse 首页">
+      <span class="wp-logo" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M16 3C13 8 6 14 6 20a10 10 0 0 0 20 0C26 14 19 8 16 3Z" fill="currentColor"/><path d="M10 21c4 3 8 3 12-1" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span><strong>WaterPulse</strong><small>上游供应链水风险助手</small></span>
+    </a>
+    <nav aria-label="主导航"><a href="#wp-how">如何分析</a><a href="#wp-deliver">能得到什么</a><button class="wp-btn wp-btn-quiet" data-action="demo">体验示例 <span aria-hidden="true">↗</span></button></nav>
+  </header>
+  <main>
+    <section class="wp-hero" aria-labelledby="wp-title">
+      <div class="wp-intro">
+        <p class="wp-eyebrow"><span></span> 面向农食企业的采购与风险管理</p>
+        <h1 id="wp-title">看清采购风险，<br><em>找准重点产地。</em></h1>
+        <p class="wp-lead">将产地水风险、原材料敏感性与采购占比联系起来，帮助你识别重点节点、比较压力情景，并查看结论依据。</p>
+        <form class="wp-composer" id="wp-form">
+          <label for="wp-question">分析我的采购水风险</label>
+          <textarea id="wp-question" name="question" rows="3" maxlength="5000" placeholder="请输入原材料、供应地区、采购占比和分析时期。我会帮你识别需要优先关注的供应节点，并说明风险来源与数据缺口。" aria-describedby="wp-input-help"></textarea>
+          <div class="wp-compose-actions"><button type="button" class="wp-tool" data-action="upload"><span aria-hidden="true">＋</span> 上传 Excel / CSV</button><button type="button" class="wp-tool" data-action="template">下载模板</button><button type="submit" class="wp-btn wp-btn-primary">开始分析 <span aria-hidden="true">↗</span></button></div>
+          <p id="wp-form-error" class="wp-form-error" role="alert" hidden></p>
+        </form>
+        <p class="wp-help" id="wp-input-help">资料不完整也可以开始，助手会先整理信息并提示数据缺口。</p>
+        <div class="wp-prompts" aria-label="常见任务"><button data-prompt="请帮我检查采购资料里还缺哪些水风险分析所需的信息。">检查资料缺口</button><button data-prompt="我想比较一个供应节点受到冲击后的变化，请先告诉我需要哪些数据。">比较冲击情景</button></div>
+        <div class="wp-demo-entry"><button data-action="demo"><span class="wp-play" aria-hidden="true">▶</span> 先走一遍甘蔗采购示例</button><span>无需上传资料</span></div>
+      </div>
+      <aside class="wp-preview" aria-labelledby="wp-preview-title">
+        <div class="wp-preview-head"><span class="wp-overline">分析成果预览</span><span class="wp-badge">模拟采购情景</span></div>
+        <h2 id="wp-preview-title">同一份采购，<br>看见每个产地的重要性。</h2>
+        <div class="wp-network" aria-label="甘蔗的两个模拟采购来源：巴西60%，广西40%，共同组成采购组合。">
+          <svg class="wp-lines" viewBox="0 0 440 175" preserveAspectRatio="none" aria-hidden="true"><path d="M114 44C215 44 240 86 385 86M114 130C215 130 240 86 385 86"/><circle cx="207" cy="66" r="4"/><circle cx="229" cy="107" r="4"/></svg>
+          <div class="wp-node wp-node-one"><span class="wp-node-dot"></span><div><strong>巴西示例节点</strong><small>采购占比 <b>60%</b></small></div></div>
+          <div class="wp-node wp-node-two"><span class="wp-node-dot wp-node-dot-blue"></span><div><strong>广西示例节点</strong><small>采购占比 <b>40%</b></small></div></div>
+          <div class="wp-destination"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 27V13l9 5v-7l9 5V5h4v22ZM5 27h22M10 22h2m6 0h2"/></svg><strong>甘蔗采购组合</strong><small>看整体，也看来源</small></div>
+        </div>
+        <div class="wp-rank"><div class="wp-rank-heading"><h3>对组合风险的贡献</h3><span>示意排序</span></div><div class="wp-bar-row"><span>巴西示例节点</span><div class="wp-track"><i style="width:54.5%"></i></div><strong>54.5%</strong></div><div class="wp-bar-row"><span>广西示例节点</span><div class="wp-track"><i class="wp-bar-blue" style="width:45.5%"></i></div><strong>45.5%</strong></div></div>
+        <div class="wp-insight"><span aria-hidden="true">↗</span><p><strong>先关注巴西示例节点</strong><br>本例中，它的节点风险强度较低，但采购占比更大，因此对组合风险的贡献更高。</p></div>
+        <div class="wp-preview-foot"><small>比例和强度均为教学设定，不代表真实企业或地区风险。</small><button data-action="evidence">查看示例依据 <span aria-hidden="true">↗</span></button></div>
+      </aside>
+    </section>
+    <section class="wp-method" id="wp-how" aria-labelledby="wp-how-title">
+      <div class="wp-section-heading"><div><p class="wp-overline">从问题到判断</p><h2 id="wp-how-title">每一步，都知道下一步。</h2></div><p>你提供业务信息，助手组织分析。<br>需要补充或确认的地方，会清楚提示。</p></div>
+      <ol class="wp-steps"><li><span>01</span><h3>说清采购情况</h3><p>输入原材料、供应地区与采购占比，或上传已有表格。</p></li><li><span>02</span><h3>核对信息与缺口</h3><p>查看整理后的信息、数据来源，以及需要补充的内容。</p></li><li><span>03</span><h3>识别重点与变化</h3><p>查看风险贡献；满足数据条件后，比较不同压力情景。</p></li><li><span>04</span><h3>带走有依据的建议</h3><p>将结果、来源、假设与待核验事项整理成管理简报。</p></li></ol>
+    </section>
+    <section class="wp-deliver" id="wp-deliver" aria-labelledby="wp-deliver-title">
+      <div><p class="wp-overline">分析之后</p><h2 id="wp-deliver-title">得到能继续讨论的结果。</h2><p>从节点排序到情景比较，<br>为采购核验与风险沟通提供依据。</p><button class="wp-link-button" data-action="demo">体验一次完整分析 <span aria-hidden="true">↗</span></button></div>
+      <div class="wp-outcomes"><article><span>01 / 重点在哪里</span><h3>节点排序与风险贡献</h3><p>区分节点自身的风险强度，以及它对你的采购组合有多重要。</p></article><article><span>02 / 冲击会怎样</span><h3>基准与情景对照</h3><p>分清风险指标变化与供应缺口；展示每项情景采用的假设。</p></article><article><span>03 / 下一步做什么</span><h3>建议与核验清单</h3><p>查看优先关注事项、所依赖的来源，以及尚未解决的数据缺口。</p></article></div>
+    </section>
+    <section class="wp-trust" aria-label="分析原则"><div><span aria-hidden="true">⌁</span><strong>数字有依据</strong><p>风险数值来自计算工具，结果附带来源与假设。</p></div><div><span aria-hidden="true">◎</span><strong>缺口看得见</strong><p>缺失数据单独提示，数据不足时不生成正式评分。</p></div><div><span aria-hidden="true">↗</span><strong>决策由你把关</strong><p>提供筛查与讨论依据，实际采购调整由企业确认。</p></div></section>
+  </main>
+  <footer class="wp-footer"><span>WaterPulse <b>·</b> 上游供应链水风险助手</span><span class="wp-prototype-label">首页交互原型 · 示例数据仅在本地演示</span></footer>
+  <dialog class="wp-dialog" id="wp-dialog" aria-labelledby="wp-dialog-title"><div class="wp-dialog-top"><div><span class="wp-badge" id="wp-dialog-badge">模拟采购情景</span><h2 id="wp-dialog-title">跟随一份甘蔗采购，走完分析过程。</h2></div><button class="wp-close" id="wp-close" aria-label="关闭">×</button></div><div id="wp-dialog-content"></div></dialog>
+  <div class="wp-toast" id="wp-toast" role="status" aria-live="polite" hidden></div>
+</div>
+<script>
+/* UI prototype only. No network requests, storage, model calls or production risk engine. */
+(() => {
+  'use strict';
+  const root = document.getElementById('wp-home');
+  if (!root) return;
+  const $ = (s) => root.querySelector(s);
+  const dialog = $('#wp-dialog');
+  const content = $('#wp-dialog-content');
+  const title = $('#wp-dialog-title');
+  const badge = $('#wp-dialog-badge');
+  const textarea = $('#wp-question');
+  let currentStep = 0;
+  let returnFocus = null;
+  let mode = 'demo';
+  let toastTimer;
+  // Deliberately invented teaching values; never use as production risk inputs.
+  const DEMO = Object.freeze({ brazilShare: 0.6, brazilIntensity: 0.4, guangxiIntensity: 0.5, failure: 0.5, inventory: 0.05, replacement: 0.1 });
+  let comparisonShare = DEMO.brazilShare;
+  const percent = (v, digits=1) => (v * 100).toFixed(digits) + '%';
+  const escapeHtml = (s) => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const calc = (share) => {
+    const a=share*DEMO.brazilIntensity, b=(1-share)*DEMO.guangxiIntensity;
+    return {a, b, aShare:a/(a+b), bShare:b/(a+b), leader:Math.abs(a-b)<1e-10?'两地相同':a>b?'巴西示例节点':'广西示例节点'};
+  };
+  function toast(message){ clearTimeout(toastTimer); const el=$('#wp-toast');el.textContent=message;el.hidden=false;toastTimer=setTimeout(()=>{el.hidden=true;},4500); }
+  function openDialog(name, label){returnFocus=document.activeElement;title.textContent=name;badge.textContent=label;dialog.showModal();dialog.scrollTop=0;$('#wp-close').focus();}
+  function actions(nextLabel, previous=true, extra='') { return `<div class="wp-dialog-actions">${previous?'<button class="wp-btn wp-btn-quiet" data-step="back">上一步</button>':'<small>示例不会使用你的文件或调用线上分析</small>'}${extra}<button class="wp-btn wp-btn-primary" data-step="next">${nextLabel} <span aria-hidden="true">→</span></button></div>`; }
+  function demo(openAt=0){mode='demo';currentStep=openAt;comparisonShare=DEMO.brazilShare;renderDemo();openDialog('跟随一份甘蔗采购，走完分析过程。','模拟采购情景');}
+  function renderDemo(){
+    const tabs=['采购信息','数据检查','重点节点','冲击情景'];
+    const navigation=`<ol class="wp-wizard-tabs" aria-label="示例步骤">${tabs.map((t,i)=>`<li ${i===currentStep?'aria-current="step"':''}><span>0${i+1}</span>${t}</li>`).join('')}</ol>`;
+    let body='';
+    if(currentStep===0) body=`<h3>先把你的问题，整理成清楚的信息。</h3><p>这是一个虚构的甘蔗采购问题。助手应先整理关键信息，再判断可以开展哪些分析。</p><blockquote class="wp-quote">“假设本年度甘蔗采购按数量计算，巴西占60%，广西占40%。我应该优先关注哪里？”</blockquote><div class="wp-data-grid"><div><small>原材料</small><strong>甘蔗</strong></div><div><small>巴西示例节点</small><strong>60%</strong></div><div><small>广西示例节点</small><strong>40%</strong></div></div><p>参考时期：假设本年度 · 比例口径：同一种原材料的采购总量</p><p class="wp-note">这两处名称仅用于讲解。真实分析需要核对具体采购范围；点击下一步表示继续浏览，不代表完成真实数据核验。</p>${actions('查看数据检查',false)}`;
+    if(currentStep===1) body=`<h3>资料是否足够，先讲清楚。</h3><p>采购信息、水风险数据和材料参数应分别保留来源。没有数据时，助手需要说明缺什么，以及还能先做什么。</p><div class="wp-table-wrap"><table><thead><tr><th>需要的信息</th><th>本例如何处理</th><th>数据身份</th></tr></thead><tbody><tr><td>采购结构与时期</td><td>巴西60%，广西40%；假设本年度</td><td><span class="wp-tag">教学设定</span></td></tr><tr><td>节点风险强度</td><td>巴西0.40，广西0.50；为方便解释而指定</td><td><span class="wp-tag">教学设定</span></td></tr><tr><td>地点水危险与材料参数</td><td>本交互示例未查询，未运行完整风险模型</td><td><span class="wp-tag">未核验</span></td></tr></tbody></table></div><p class="wp-note">如果真实用户只提供60%的采购来源，剩余40%应保留为未知份额；不能把已知部分当成全部采购。阻断字段不足时，应提示补充，暂停正式评分。</p>${actions('查看示意结果')}`;
+    if(currentStep===2) body=`<h3>采购占比，也会改变关注顺序。</h3><p>下图只演示“采购占比 × 设定的节点风险强度”的关系。拖动占比，观察风险贡献如何变化。</p><div class="wp-result-grid"><div class="wp-result-panel"><h4>对组合风险的贡献份额</h4><div class="wp-bar-row"><span>巴西示例节点</span><div class="wp-track"><i id="wp-demo-bar-a"></i></div><strong id="wp-demo-share-a"></strong></div><div class="wp-bar-row"><span>广西示例节点</span><div class="wp-track"><i class="wp-bar-blue" id="wp-demo-bar-b"></i></div><strong id="wp-demo-share-b"></strong></div><label class="wp-slider-label" for="wp-share-slider"><span>巴西采购占比</span><strong id="wp-slider-value"></strong></label><input id="wp-share-slider" type="range" min="10" max="90" step="5" value="${comparisonShare*100}" aria-describedby="wp-slider-note"><p id="wp-slider-note" style="font-size:10px;margin-top:8px">广西占比同步补足至100%；其余设定保持不变。</p></div><div class="wp-reading" aria-live="polite" aria-atomic="true"><strong id="wp-demo-leader"></strong><p id="wp-demo-explain"></p><p style="margin-top:12px">管理讨论可以从核验采购依赖、了解产地情况开始。这里的排序不构成实际采购调整建议。</p></div></div><p class="wp-note">本例展示教学设定下的计算关系，不能作为正式风险评估。两地强度与采购比例均为假设，贡献份额不是供应损失比例。</p>${actions('查看节点失效示例')}`;
+    if(currentStep===3) body=`<h3>供应受到冲击后，缓冲够不够？</h3><p>回到固定的60% / 40%示例基准：假设巴西节点有50%的供应无法交付；库存可覆盖总需求的5%，替代供应可覆盖10%。</p><div class="wp-result-grid"><div class="wp-result-panel"><h4>未满足需求占总需求的比例</h4><div class="wp-metric">15<small>%</small></div><p>30%受影响供应 − 5%库存 − 10%替代供应</p></div><div class="wp-reading"><strong>下一步应核验缓冲条件</strong><p>确认库存是否可用于同一时期、替代供应是否满足材料与交付要求，再讨论应对措施。</p><p style="margin-top:12px">这是节点失效的假设演算，不是干旱导致缺货的预测。</p></div></div><div class="wp-breakdown"><div>受影响供应<strong>30%</strong></div><div>库存使用<strong>5%</strong></div><div>替代供应<strong>10%</strong></div><div>未满足需求<strong>15%</strong></div></div><p class="wp-note">所有比例都以同一时期的总需求为分母。情景采用固定示例基准，不沿用上一页滑块的探索值。真实结果须来自现有情景计算工具，并保留完整假设。</p><div class="wp-dialog-actions"><button class="wp-btn wp-btn-quiet" data-step="back">上一步</button><button class="wp-btn wp-btn-quiet" data-action="download-demo">下载示例说明</button><button class="wp-btn wp-btn-primary" data-action="return-input">带着自己的问题开始 ↗</button></div>`;
+    content.innerHTML=navigation+`<div class="wp-dialog-body">${body}</div>`;
+    if(currentStep===2) updateComparison();
+    dialog.scrollTop=0;
+  }
+  function updateComparison(){const r=calc(comparisonShare);$('#wp-demo-bar-a').style.width=percent(r.aShare);$('#wp-demo-bar-b').style.width=percent(r.bShare);$('#wp-demo-share-a').textContent=percent(r.aShare);$('#wp-demo-share-b').textContent=percent(r.bShare);$('#wp-slider-value').textContent=percent(comparisonShare,0);$('#wp-demo-leader').textContent=r.leader==='两地相同'?'两地贡献相同':`当前示意排序：${r.leader}优先`;$('#wp-demo-explain').textContent=`节点强度保持为巴西0.40、广西0.50；按当前采购占比计算，贡献值分别为${r.a.toFixed(3)}和${r.b.toFixed(3)}。份额以两地贡献之和为分母。`;}
+  function evidence(){mode='evidence';content.innerHTML=`<div class="wp-dialog-body"><h3>数字是怎样得到的</h3><p>为了说明“采购占比”和“风险贡献”之间的关系，本页使用一组独立教学设定，不沿用研究报告或线上案例的计算值。</p><div class="wp-table-wrap"><table><thead><tr><th>示例节点</th><th>采购占比</th><th>设定强度</th><th>加权贡献</th><th>贡献份额</th></tr></thead><tbody><tr><td>巴西</td><td>60%</td><td>0.40</td><td>0.240</td><td>54.5%</td></tr><tr><td>广西</td><td>40%</td><td>0.50</td><td>0.200</td><td>45.5%</td></tr></tbody></table></div><p>加权贡献 = 采购占比 × 设定强度。贡献份额 = 该节点贡献 ÷ 两地贡献之和。显示值保留一位小数。</p><ul class="wp-evidence-list"><li>采购比例和节点强度均为假设，不是观测或已核验数据。</li><li>本例未查询Aqueduct、SPEI或材料参数库，不能作为实际地区风险结论。</li><li>节点失效示例：60% × 50% = 30%；30% = 5% + 10% + 15%。</li><li>正式使用时，来源、覆盖率、缺口和版本应由真实分析结果提供。</li></ul><div class="wp-dialog-actions"><small>当前版本：homepage-demo-1.0</small><button class="wp-btn wp-btn-primary" data-action="demo-in-dialog">进入完整示例 →</button></div></div>`;openDialog('查看示例依据','教学设定 · 未核验');}
+  async function handoff(action,payload={}){
+    const bridge=window.WaterPulseHomepageBridge;
+    // The host must explicitly register an adapter; no guessed API endpoint.
+    if(bridge&&typeof bridge.handleAction==='function'){
+      const button=$('#wp-form button[type=submit]');button.disabled=true;
+      try{await bridge.handleAction({action,payload,source:'waterpulse-home',version:'1.0'});}
+      catch(err){toast('暂时未能进入分析，请稍后重试。输入内容已保留。');}
+      finally{button.disabled=false;}
+      return;
+    }
+    mode='handoff';
+    const descriptions={submit:'你的内容已保留在输入框中。此预览仅支持示例体验，尚未提交分析。',upload:'正式页面可使用原网站的Excel / CSV上传入口。此预览不会读取或上传你的文件。',template:'此预览未提供计算模板。正式页面应下载与当前计算版本配套的Excel模板。'};
+    const text=descriptions[action]||'此预览仅支持示例体验。';
+    content.innerHTML=`<div class="wp-dialog-body"><p>${text}</p>${action==='submit'?`<blockquote class="wp-quote">${escapeHtml(payload.text)}</blockquote>`:''}<p class="wp-note">你可以先体验模拟采购流程，了解信息检查、重点节点和情景对照的呈现方式。</p><div class="wp-dialog-actions"><button class="wp-btn wp-btn-quiet" data-action="close">返回首页</button><button class="wp-btn wp-btn-primary" data-action="demo-in-dialog">体验示例 →</button></div></div>`;
+    openDialog('先了解一次完整分析','本地交互预览');
+  }
+  function downloadDemo(){
+    const note=`WaterPulse 首页示例说明\n版本：homepage-demo-1.0\n\n模拟采购情景，全部数值为教学设定；不代表真实企业或地区风险。\n固定基准：甘蔗，假设本年度，数量口径；巴西60%，广西40%。\n设定节点强度：巴西0.40，广西0.50。\n贡献值：0.60×0.40=0.240；0.40×0.50=0.200。\n贡献份额：54.5%和45.5%。未执行正式路径匹配模型。\n\n节点失效：固定基准下，巴西供应减少50%，受影响供应占总需求30%。\n库存可覆盖总需求5%，替代供应可覆盖10%，未满足需求15%。\n30%=5%+10%+15%，均为同一时期总需求口径。\n不沿用滑块探索值；不是干旱造成供应缺口的预测。\n\n下一步核验：具体采购范围、实际采购份额、地点水危险与材料参数、库存可用性、替代供应容量。\n真实分析应由现有计算工具返回结果，保留来源、数据身份、假设、缺口和版本。\n`;
+    const url=URL.createObjectURL(new Blob([note],{type:'text/plain;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='WaterPulse_模拟采购示例说明.txt';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('示例说明已下载，保留了全部教学设定。');
+  }
+  root.addEventListener('click',e=>{
+    const prompt=e.target.closest('[data-prompt]');if(prompt){textarea.value=prompt.dataset.prompt;textarea.focus();$('#wp-form-error').hidden=true;return;}
+    const step=e.target.closest('[data-step]');if(step){currentStep=Math.max(0,Math.min(3,currentStep+(step.dataset.step==='next'?1:-1)));renderDemo();$('#wp-dialog-content h3').setAttribute('tabindex','-1');$('#wp-dialog-content h3').focus();return;}
+    const button=e.target.closest('[data-action]');if(!button)return;
+    switch(button.dataset.action){case'demo':demo();break;case'evidence':evidence();break;case'demo-in-dialog':currentStep=0;comparisonShare=DEMO.brazilShare;mode='demo';title.textContent='跟随一份甘蔗采购，走完分析过程。';badge.textContent='模拟采购情景';renderDemo();break;case'upload':handoff('upload');break;case'template':handoff('template');break;case'close':dialog.close();break;case'return-input':returnFocus=textarea;dialog.close();textarea.focus();textarea.scrollIntoView({block:'center',behavior:'auto'});break;case'download-demo':downloadDemo();break;}
+  });
+  root.addEventListener('input',e=>{if(e.target.id==='wp-share-slider'){comparisonShare=Number(e.target.value)/100;updateComparison();}});
+  $('#wp-form').addEventListener('submit',e=>{e.preventDefault();const text=textarea.value.trim();if(!text){$('#wp-form-error').textContent='请先描述你的问题，或点击“体验示例”。';$('#wp-form-error').hidden=false;textarea.focus();return;}$('#wp-form-error').hidden=true;handoff('submit',{text});});
+  $('#wp-close').addEventListener('click',()=>dialog.close());
+  dialog.addEventListener('close',()=>{if(returnFocus&&returnFocus.isConnected)returnFocus.focus();});
+  dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close();}});
+  // Deliberately exposes only view controls, never production numeric calculations.
+  window.WaterPulseHomepage=Object.freeze({openDemo:()=>demo(),close:()=>dialog.close(),focusInput:()=>textarea.focus()});
+})();
+
+</script>
+</body>
+</html>
