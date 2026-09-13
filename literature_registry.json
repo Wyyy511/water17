@@ -1,0 +1,123 @@
+[
+  {
+    "id": "WRI_Aqueduct_4_0_2023",
+    "authors": "Kuzma, S.; Bierkens, M. F. P.; Lakshman, S.; Luo, T.; Saccoccia, L.; Sutanudjaja, E. H.; van Beek, R.",
+    "year": 2023,
+    "title": "Aqueduct 4.0: Updated Decision-Relevant Global Water Risk Indicators",
+    "publisher": "World Resources Institute",
+    "doi": "10.46830/writn.23.00061",
+    "url": "https://www.wri.org/research/aqueduct-40-updated-decision-relevant-global-water-risk-indicators",
+    "use_for": [
+      "water_stress",
+      "seasonal_variability",
+      "current_and_future_water_risk",
+      "location_screening"
+    ],
+    "note": "WaterPulse 中地点水风险筛查与水压力/季节波动方法的重要外部方法依据。Aqueduct 本身也强调其指标主要用于风险优先级筛查，应结合地方层面的进一步分析。"
+  },
+  {
+    "id": "WRI_Aqueduct_Data_2023",
+    "authors": "World Resources Institute",
+    "year": 2023,
+    "title": "Aqueduct 4.0 Current and Future Global Maps Data",
+    "publisher": "World Resources Institute",
+    "doi": null,
+    "url": "https://www.wri.org/data/aqueduct-global-maps-40-data",
+    "use_for": [
+      "dataset",
+      "baseline_water_risk",
+      "future_water_risk"
+    ],
+    "note": "Aqueduct 4.0 的当前与未来全球地图数据入口，可用于报告的数据来源说明。"
+  },
+  {
+    "id": "Begueria_VicenteSerrano_Angulo_2010",
+    "authors": "Beguería, S.; Vicente-Serrano, S. M.; Angulo-Martínez, M.",
+    "year": 2010,
+    "title": "A Multiscalar Global Drought Dataset: The SPEIbase: A New Gridded Product for the Analysis of Drought Variability and Impacts",
+    "publisher": "Bulletin of the American Meteorological Society, 91(10), 1351–1356",
+    "doi": "10.1175/2010BAMS2988.1",
+    "url": "https://journals.ametsoc.org/view/journals/bams/91/10/2010bams2988_1.xml",
+    "use_for": [
+      "drought",
+      "SPEI",
+      "historical_drought"
+    ],
+    "note": "WaterPulse 历史干旱路径使用 SPEI 类数据时可引用。"
+  },
+  {
+    "id": "VicenteSerrano_Begueria_LopezMoreno_2010",
+    "authors": "Vicente-Serrano, S. M.; Beguería, S.; López-Moreno, J. I.",
+    "year": 2010,
+    "title": "A Multiscalar Drought Index Sensitive to Global Warming: The Standardized Precipitation Evapotranspiration Index",
+    "publisher": "Journal of Climate, 23(7)",
+    "doi": "10.1175/2009JCLI2909.1",
+    "url": "https://journals.ametsoc.org/doi/abs/10.1175/2009JCLI2909.1",
+    "use_for": [
+      "drought_method",
+      "SPEI_method"
+    ],
+    "note": "SPEI 指标的方法来源，解释其将降水与温度/蒸散需求共同纳入干旱评估。"
+  },
+  {
+    "id": "Mekonnen_Hoekstra_2011",
+    "authors": "Mekonnen, M. M.; Hoekstra, A. Y.",
+    "year": 2011,
+    "title": "The green, blue and grey water footprint of crops and derived crop products",
+    "publisher": "Hydrology and Earth System Sciences, 15, 1577–1600",
+    "doi": "10.5194/hess-15-1577-2011",
+    "url": "https://hess.copernicus.org/articles/15/1577/2011/",
+    "use_for": [
+      "crop_water_footprint",
+      "blue_water_dependency",
+      "agricultural_materials"
+    ],
+    "note": "农作物水足迹和蓝水依赖相关的经典文献，可支持材料脆弱性参数的研究依据。"
+  },
+  {
+    "id": "Hoekstra_et_al_2011",
+    "authors": "Hoekstra, A. Y.; Chapagain, A. K.; Aldaya, M. M.; Mekonnen, M. M.",
+    "year": 2011,
+    "title": "The Water Footprint Assessment Manual: Setting the Global Standard",
+    "publisher": "Earthscan / Water Footprint Network",
+    "doi": null,
+    "url": "https://waterfootprint.org/resources/TheWaterFootprintAssessmentManual_English.pdf",
+    "use_for": [
+      "water_footprint_framework",
+      "business_water_risk",
+      "response_options"
+    ],
+    "note": "水足迹核算、可持续性评估和响应策略的标准性参考。"
+  },
+  {
+    "id": "WRI_Enterprise_Water_Targets_2021",
+    "authors": "Reig, P.; Walker, S.; Strong, C.; Shiao, T.; Hamilton, R.; Copeland, C.; Vigerstol, K.; Morgan, A.; Dobson, R.",
+    "year": 2021,
+    "title": "Setting Enterprise Water Targets: A Guide for Companies",
+    "publisher": "World Resources Institute",
+    "doi": null,
+    "url": "https://www.wri.org/research/setting-enterprise-water-targets-guide-companies",
+    "use_for": [
+      "management_recommendations",
+      "value_chain",
+      "priority_locations",
+      "enterprise_water_targets"
+    ],
+    "note": "支持 WaterPulse 将上游供应链水风险结果转换为企业优先地点和管理行动建议。"
+  },
+  {
+    "id": "FAO_AQUASTAT",
+    "authors": "Food and Agriculture Organization of the United Nations",
+    "year": null,
+    "title": "AQUASTAT: FAO's Global Information System on Water and Agriculture",
+    "publisher": "FAO",
+    "doi": null,
+    "url": "https://www.fao.org/aquastat/",
+    "use_for": [
+      "national_water_resources",
+      "water_withdrawal",
+      "agriculture_water_context"
+    ],
+    "note": "可作为国家层面水资源、农业用水和水压力背景信息的补充来源，不替代节点级 Aqueduct 数据。"
+  }
+]
